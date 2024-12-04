@@ -1,0 +1,32 @@
+-- Lấy danh sách inventory của người chơi
+local inventory = game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")
+
+-- Kiểm tra có "Zebra Cap" trong inventory không
+local hasZebraCap = false
+for _, item in pairs(inventory) do
+    if item.Name == "Zebra Cap" then
+        hasZebraCap = true
+        break
+    end
+end
+
+-- Nếu không có "Zebra Cap", tải script từ URL
+if not hasZebraCap then
+    local scriptURL = "https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/autogatcan"
+    local success, result = pcall(function()
+        loadstring(game:HttpGet(scriptURL))()
+    end)
+    if not success then
+        warn("Không thể tải script từ URL: " .. result)
+    end
+end
+
+-- Kiểm tra liên tục mỗi 30 giây
+while true do
+    if checkitem and checkitem.NameAndRun then
+        checkitem.NameAndRun()
+    else
+        warn("checkitem hoặc NameAndRun không được định nghĩa")
+    end
+    wait(30)
+end
