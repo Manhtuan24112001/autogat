@@ -1,6 +1,5 @@
-
 repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
-getgenv().Key = "a0b63542adeb72e03f641676"
+getgenv().Key = "6775fc093ad8205fb878a474"
 getgenv().SettingFarm ={
     ["Hide UI"] = false,
     ["Fast Attack"] = {
@@ -45,7 +44,7 @@ getgenv().SettingFarm ={
     ["Auto Get Mirror Fractal"] = true,
     ["Lock Fragment"] = {
         ["Enabled"] = true,
-        ["Fragments"] = 60000
+        ["Fragments"] = 50000
     },
     ["Buy Haki Color Legendary"] = true, --- it will buy if u have sgt and godhuman and dont have Valkyrie Helm
     ["Select Hop"] = { -- 70% will have it
