@@ -1,0 +1,23 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+    if player and player:FindFirstChild("Data") and player.Data:FindFirstChild("Fragments") then
+        local Fragments = player.Data.Fragments.Value
+        local expectedFragmentsLow = 2000
+        local expectedFragmentsHigh = 60000
+        if Fragments <= expectedFragmentsLow then
+            local success, errorMessage = pcall(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/cay60kfwazure"))()
+            end)
+            if not success then
+                warn("Error loading script: " .. errorMessage)
+            end
+        elseif Fragments >= expectedFragmentsHigh then
+            local success, errorMessage = pcall(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/auto%20cy%20wazure"))()
+            end)
+            if not success then
+                warn("Error loading script: " .. errorMessage)
+            end
+        end
+    end
+end
