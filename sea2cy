@@ -1,18 +1,23 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local CommF_ = ReplicatedStorage.Remotes["CommF_"]
-local function checkInventoryAndExecute()
-    local inventory = CommF_:InvokeServer("getInventory")
-    for _, item in pairs(inventory) do
-        if item.Name == "Zebra Cap" then
-            spawn(function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/autogatan.md"))()
-            end)
-            return true  -- Thông báo là "Zebra Cap" đã được tìm thấy
-        else
-            spawn(function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/auto%20cy%20wazure"))()
-            end)
-        end
+local RaceOption = "Ghoul" 
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local hasCheckedRace = false
+local function checkRaceNameAndRun()
+    if hasCheckedRace then return end
+    hasCheckedRace = true
+
+    local RaceName = Player.Data.Race.Value  -- Lấy giá trị tộc từ Data folder
+
+    -- Nếu tộc là "Ghoul", thực hiện hành động ở đây (không làm gì nếu là "Ghoul")
+    if RaceName == RaceOption then
+        print("Player is a Ghoul. No action required.")
+        -- Có thể thực hiện thêm hành động gì đó khi là tộc Ghoul ở đây.
+    else
+        -- Nếu không phải "Ghoul", tải script từ URL
+        print("Player is not a Ghoul. Running external script...")
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/autogatcan"))()
     end
-    return false  -- Thông báo là "Zebra Cap" không được tìm thấy
 end
+
+-- Gọi hàm kiểm tra
+checkRaceNameAndRun()
