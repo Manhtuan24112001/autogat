@@ -1,23 +1,37 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-    if player and player:FindFirstChild("Data") and player.Data:FindFirstChild("Fragments") then
-        local Fragments = player.Data.Fragments.Value
-        local expectedFragmentsLow = 2000
-        local expectedFragmentsHigh = 60000
-        if Fragments <= expectedFragmentsLow then
-            local success, errorMessage = pcall(function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/cay60kfwazure"))()
-            end)
-            if not success then
-                warn("Error loading script: " .. errorMessage)
-            end
-        elseif Fragments >= expectedFragmentsHigh then
-            local success, errorMessage = pcall(function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/auto%20cy%20wazure"))()
-            end)
-            if not success then
-                warn("Error loading script: " .. errorMessage)
-            end
-        end
-    end
-end
+script_key = "bNEluWTuEjGYIUbiaWKrsVrHLYgGPeZP"
+getgenv().SetFpsCap = true
+getgenv().FpsCap = 15
+    getgenv().UiCheckItems = true
+    getgenv().WhiteScreen = true
+    getgenv().OneClickSetting = {
+        Enable=true,
+        UnlimitGetQuest=true,
+        TripleQuest=true,
+        AutoAddStats=true,
+        RedeemCode=true,
+        Sea2KeyHop=true,
+        FruitEat = { --Priority, Name, 
+            [1] = {""},
+            [2] = {}
+        },
+        EatFruitFromStorage = true,
+        SnipeFruit = true,
+        SnipeFruitMirage = true,
+        HopIfFoundNearExploiter = false,
+        HopHakiColor = false,
+        HopTushita = true,
+        HopValkyriehelm = false,
+        HopMirrorFractal = false,
+        FarmPole = false, -- Turn off If Want Focus Level
+        FarmItems = false, --Turn off If Want Focus Level And CDK, THis Only get After You Get God Human
+        DisableSoulGuitar = false,
+        DisableCDK = false,
+        DisableRaceEvolve = false,
+         RollRace={
+            Enable = true,
+            Races = {"Skypiea"}
+        },
+       MinFragment = 0, --Farm After Max Level
+    }
+getgenv().Team = "Marines"
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vinhuchi/rblx/main/W-azure/BloxFruit/OneClickLoader.lua"))()
