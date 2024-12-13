@@ -1,6 +1,6 @@
 script_key = "bNEluWTuEjGYIUbiaWKrsVrHLYgGPeZP"
 getgenv().SetFpsCap = true
-getgenv().FpsCap = 15
+getgenv().FpsCap = 10
     getgenv().UiCheckItems = false
     getgenv().WhiteScreen = false
     getgenv().OneClickSetting = {
