@@ -1,8 +1,8 @@
 script_key = "bNEluWTuEjGYIUbiaWKrsVrHLYgGPeZP"
 getgenv().SetFpsCap = true
-getgenv().FpsCap = 15
-    getgenv().UiCheckItems = true
-    getgenv().WhiteScreen = true
+getgenv().FpsCap = 10
+    getgenv().UiCheckItems = false
+    getgenv().WhiteScreen = false
     getgenv().OneClickSetting = {
         Enable=true,
         UnlimitGetQuest=true,
