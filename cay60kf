@@ -38,6 +38,9 @@ getgenv().SettingFarm ={
             ["Hop Find Soul Reaper [CDK]"] = true,
             ["Hop Find Darkbeard [SG]"] = true,
             ["Hop Find Mirage [ Pull Lever ]"] = true,
+            ["Lock Fragment"] = {
+            ["Enabled"] = true,
+            ["Fragments"] = 60000
         },
         ["Buy Haki"] = {
             ["Enhancement"] = false,
