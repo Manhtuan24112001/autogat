@@ -45,6 +45,10 @@ getgenv().SettingFarm ={
             ["Flash Step"] = true,
             ["Observation"] = true,
         },
+        ["Lock Fragment"] = {
+        ["Enabled"] = true,
+        ["Fragments"] = 60000
+        },
         ["Sniper Fruit Shop"] = {
             ["Enabled"] = true, -- Auto Buy Fruit in Shop Mirage and Normal
             ["Fruit"] = {"Leopard-Leopard","Kitsune-Kitsune","Dragon-Dragon","Yeti-Yeti","Gas-Gas"},
