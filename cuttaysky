@@ -30,7 +30,7 @@ getgenv().FpsCap = 20
         DisableSoulGuitar = false,
         DisableCDK = false,
          RollRace={
-            Enable = false,
+            Enable = true,
             Races = {"Skypiea"}
         },
        MinFragment = 0, --Farm After Max Level
