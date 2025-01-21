@@ -1,5 +1,5 @@
 repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
-getgenv().Key = "a0b63542adeb72e03f641676"
+getgenv().Key = ""
 getgenv().SettingFarm ={
         ["Hide UI"] = false,
         ["Reset Teleport"] = {
@@ -25,10 +25,10 @@ getgenv().SettingFarm ={
             ["Saber"] = true,
             ["Godhuman"] =  true,
             ["Skull Guitar"] = true,
-            ["Mirror Fractal"] = true,
+            ["Mirror Fractal"] = false,
             ["Cursed Dual Katana"] = true,
             ["Upgrade Race V2-V3"] = true,
-            ["Auto Pull Lever"] = true,
+            ["Auto Pull Lever"] = false,
         },
         ["Select Hop"] = { -- 70% will have it
             ["Hop Find Rip Indra Get Valkyrie Helm or Get Tushita"] = false, 
@@ -38,6 +38,7 @@ getgenv().SettingFarm ={
             ["Hop Find Soul Reaper [CDK]"] = false,
             ["Hop Find Darkbeard [SG]"] = false,
             ["Hop Find Mirage [ Pull Lever ]"] = false,
+        },
         ["Buy Haki"] = {
             ["Enhancement"] = false,
             ["Skyjump"] = true,
