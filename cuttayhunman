@@ -34,9 +34,9 @@ _G.Quests_Settings = { -- ตั้งค่าเควสหลักๆ
 }
 _G.Races_Settings = { -- ตั้งค่าเผ่า
     ['Race'] = {
-        ['EnabledEvo'] = false,
-        ["v2"] = false,
-        ["v3"] = false,
+        ['EnabledEvo'] = true,
+        ["v2"] = true,
+        ["v3"] = true,
         ["Races_Lock"] = {
             ["Races"] = { -- Select Races U want
                 ["Mink"] = false,
