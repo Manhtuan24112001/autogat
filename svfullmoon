@@ -1,166 +1,129 @@
---[[ 
-    WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk! 
-]]
-LinkHook = "https://discord.com/api/webhooks/1325050145557188669/R4C75XekPzRg3EBg0yQDOkYg9TXPpD2ERgSQ2qoN_ji7awqZ3PbQrTsYgMgf1Jd-goKC" -- webhook to send the moon status
-
-local Moon = {
-    ['8'] = "http://www.roblox.com/asset/?id=9709149431", -- 🌕
-    ['7'] = "http://www.roblox.com/asset/?id=9709149052", -- 🌖
-    ['6'] = "http://www.roblox.com/asset/?id=9709143733", -- 🌗
-    ['5'] = "http://www.roblox.com/asset/?id=9709150401", -- 🌘
-    ['4'] = "http://www.roblox.com/asset/?id=9709135895", -- 🌑
-    ['3'] = "http://www.roblox.com/asset/?id=9709139597", -- 🌒
-    ['2'] = "http://www.roblox.com/asset/?id=9709150086", -- 🌓
-    ['1'] = "http://www.roblox.com/asset/?id=9709149680", -- 🌔
+repeat wait() until game:IsLoaded() and game.Players.LocalPlayer 
+getgenv().Config = {
+	["Get Quest Farm [Katakuri Or Bone]"] = false,
+	["Auto Factory"] = false,
+	["Attack Multi Segments Leviathan"] = false,
+	["Attack Darkbeard"] = false,
+	["Auto Dodge Skill Seabeast"] = false,
+	["White Screen"] = false,
+	["Auto Dodge Skill Mobs"] = false,
+	["Change Speed Boat"] = false,
+	["Auto Dodge Skill Terrorshark"] = false,
+	["Auto Trade Azure Ember"] = false,
+	["Auto Fire Shoot Heart Leviathan"] = false,
+	["Auto Turn On V3"] = false,
+	["Values Wooden Plank Repair Boat"] = "500",
+	["Farm Observation [ Hop Server ]"] = false,
+	["Auto Upgrade Gun Inventory"] = false,
+	["Auto UP Observation V2"] = false,
+	["Auto Soul Guitar"] = false,
+	["Distance Teleport Y"] = "500",
+	["Auto New World"] = false,
+	["Kill Mob"] = false,
+	["Auto Buy Legendary Sword"] = false,
+	["Auto Raid"] = false,
+	["Auto Chest Hop"] = false,
+	["Auto Summon Soul Ember"] = false,
+	["Teleport Player"] = false,
+	["Summon Dough King"] = false,
+	["Auto Store Fruit"] = false,
+	["Farm Mastery"] = false,
+	["Auto Farm Mastery 600 Melees"] = false,
+	["Multi Trial"] = true,
+	["Auto Turn On Buso"] = true,
+	["Auto Tushita"] = false,
+	["Auto Upgrade Race V2-V3"] = false,
+	["Auto Buy Haki Color"] = false,
+	["Kill Boss"] = false,
+	["Buy Blox Fruit Sniper Shop"] = false,
+	["Auto Third World"] = false,
+	["Teleport Boat To Tiki"] = false,
+	["Hop Server [Trial Or Pull Lever]"] = true,
+	["Auto Pull Lever"] = true,
+	["Reset Teleport"] = false,
+	["Auto Saber"] = false,
+	["Auto Buy Boat Beast Hunter"] = false,
+	["Teleport To Fruit [ Hop Server ]"] = false,
+	["Auto Click"] = false,
+	["Enabled Limit Attack"] = false,
+	["Farm Observation"] = false,
+	["Hop Server [ Haki color or Legendary Sword]"] = false,
+	["Ignore Attack Katakuri"] = false,
+	["Hop Server Get Ghoul"] = false,
+	["Attack Soul Reaper"] = false,
+	["Esp Fruit"] = false,
+	["Random Devil Fruit"] = false,
+	["Auto rejoin Disconnect"] = false,
+	["Auto Get Melee"] = false,
+	["Auto Awake Fruit"] = false,
+	["Bring Mob"] = true,
+	["Auto Spawn Kitsune Island"] = false,
+	["Teleport Boat Other CFrame if Rough Sea"] = false,
+	["Teleport Y"] = false,
+	["Auto Load Script"] = true,
+	["Auto Trial"] = false,
+	["Auto Yama"] = false,
+	["Auto Reset Character"] = false,
+	["Auto Get Cyborg Hop Collect Chest"] = false,
+	["Auto Get Fully Cyborg"] = false,
+	["Kill players When complete Trial"] = false,
+	["Hop Server Elite Hunter"] = false,
+	["Auto Upgrade Sword Inventory"] = false,
+	["Dont reset if Have Items"] = false,
+	["Auto Pirate Raid"] = false,
+	["Auto Aimbot"] = false,
+	["Get Fruit In Inventory Low Beli"] = false,
+	["Auto Yoru Mini"] = false,
+	["Auto Turn On V4"] = false,
+	["Auto Elite Hunter"] = false,
+	["Teleport To Kitsune Island"] = false,
+	["Auto Collect Soul Ember"] = false,
+	["Time Hop Server"] = "10",
+	["Health %"] = "30",
+	["Teleport Acient Clock"] = false,
+	["Auto Attack Leviathan"] = false,
+	["Attack Rip Indra"] = false,
+	["Farm Material"] = false,
+	["Auto Find Leviathan"] = false,
+	["Tween Safe if have Items"] = false,
+	["Values Azure Ember"] = "10",
+	["Use Your Boat Beast Hunter"] = false,
+	["Auto Choose Gears"] = false,
+	["Auto Sea Event"] = false,
+	["Auto Stats"] = false,
+	["Auto Yoru Mini (Hop Server)"] = false,
+	["Start Farm"] = false,
+	["Auto Sea Event With Friend"] = false,
+	["Auto Touch Pad Haki"] = false,
+	["Hop Server Kitsune Island"] = false,
+	["Attack Dough King"] = false,
+	["Auto Chest"] = false,
+	["Kill All Boss"] = false,
+	["Spam Join"] = false,
+	["Auto True Triple Katana"] = false,
+	["Auto Farm Mastery 600 Sword In Inventory"] = false,
+	["Auto Craft Item Shark Anchor"] = false,
+	["Summon Soul Reaper"] = false,
+	["Super Attack if Attack Terrorshark"] = false,
+	["Use Skill when Kill Player"] = false,
+	["Auto Get Ghoul"] = false,
+	["Remove Notifications"] = false,
+	["Teleport Frozen Dimension"] = false,
+	["Auto CDK"] = false,
+	["Auto Finish Train Quest"] = false,
+	["Summon DarkBeard"] = false,
+	["Super Attack if Attack Katakuri"] = false,
+	["Auto Summon Rip Indra"] = false,
+	["Hop Sever Raid"] = false,
+	["Auto Buy Gear"] = false,
+	["Teleport To Fruit"] = false,
+	["Auto Trade Bone"] = false,
+	["Auto Turn On Observation"] = false,
+	["Auto Get Cyborg"] = false,
+	["Auto Shipwright"] = false,
+	["Auto Turn On V3 Near Door"] = true,
+	["Reset Teleport Get Boat"] = false,
+	["Hop Server Find Boss"] = false
 }
-
-if game:GetService("Lighting").Sky.MoonTextureId == Moon['1'] then
-    MoonIcon = '🌔'
-elseif game:GetService("Lighting").Sky.MoonTextureId == Moon['2'] then
-    MoonIcon = '🌓'
-elseif game:GetService("Lighting").Sky.MoonTextureId == Moon['3'] then
-    MoonIcon = '🌒'
-elseif game:GetService("Lighting").Sky.MoonTextureId == Moon['4'] then
-    MoonIcon = '🌑'
-elseif game:GetService("Lighting").Sky.MoonTextureId == Moon['5'] then
-    MoonIcon = '🌘'
-elseif game:GetService("Lighting").Sky.MoonTextureId == Moon['6'] then
-    MoonIcon = '🌗'
-elseif game:GetService("Lighting").Sky.MoonTextureId == Moon['7'] then
-    MoonIcon = '🌖'
-elseif game:GetService("Lighting").Sky.MoonTextureId == Moon['8'] then
-    MoonIcon = '🌕'
-end
-
-for i,v in pairs(Moon) do
-    if game:GetService("Lighting").Sky.MoonTextureId == v then
-        MoonPercent = i / 8 * 100
-    end
-end
-
-for i,v in pairs(game.Players:GetPlayers()) do
-    PlayersMin = i
-end
-
-MoonMessage = '```'..tostring(MoonPercent..'%'..' : '..MoonIcon)..'```'
-CodeServer = 'game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId,'..'\''..tostring(game.JobId)..'\''..')'
-function logTime(...) log(..., "|", math.round((tick() - loadTime) * 1000), "ms") end
-
--- Only send webhook if the moon is in phase '7' (🌖) or '8' (🌕)
-if game:GetService("Lighting").Sky.MoonTextureId == Moon['7'] or game:GetService("Lighting").Sky.MoonTextureId == Moon['8'] then
-    local Embed = {
-        ["username"] = "Full Moon Notify",
-        ["avatar_url"] = "https://cdn.discordapp.com/attachments/1258228428881137677/1258228644959096907/1705502093042.jpg?ex=6687483d&is=6685f6bd&hm=31d72cdb691c08bba64e22e59af42a1c4bad11b6ef8bad223436bf883d4e334a&",
-        ["embeds"] = {
-            {
-                ["title"] = "**Full Moon Notify**",
-                ["color"] = tonumber(00000000),
-                ["type"] = "rich",
-                ["fields"] =  {
-                    {
-                        ["name"] = "Players",
-                        ["value"] = '```'..tostring(PlayersMin)..'/12```',
-                        ["inline"] = false
-                    },
-                    {
-                        ["name"] = "Job Id",
-                        ["value"] = '```'..tostring(game.JobId)..'```',
-                        ["inline"] = false
-                    },
-                    {
-                        ["name"] = "Code",
-                        ["value"] = '```'..CodeServer..'```',
-                        ["inline"] = true
-                    },
-                    {
-                        ["name"] = "Moon",
-                        ["value"] = ''..MoonMessage..'',
-                        ["inline"] = true
-                    }
-                },
-                ["thumbnail"] = {
-                    ["url"] = "https://cdn.discordapp.com/attachments/1258228428881137677/1258228644959096907/1705502093042.jpg?ex=6687483d&is=6685f6bd&hm=31d72cdb691c08bba64e22e59af42a1c4bad11b6ef8bad223436bf883d4e334a&",
-                },
-                ["footer"] = {
-                    ["timestamp"] = DateTime.now():ToIsoDate(),
-                    ["icon_url"] = "https://cdn.britannica.com/89/145489-050-4E9609BA/moon-return-journey-Apollo-11-July-21-1969.jpg"
-                }
-            }
-        },
-    }
-    local Data = game:GetService("HttpService"):JSONEncode(Embed)
-    local Head = {["content-type"] = "application/json"}
-    Send = http_request or request or HttpPost or syn.request
-    local sendhook = {Url = LinkHook, Body = Data, Method = "POST", Headers = Head}
-    Send(sendhook)
-end
-
-function Hop()
-    local PlaceID = game.PlaceId
-    local AllIDs = {}
-    local foundAnything = ""
-    local actualHour = os.date("!*t").hour
-    local Deleted = false
-    function TPReturner()
-        local Site;
-        if foundAnything == "" then
-            Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
-        else
-            Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-        end
-        local ID = ""
-        if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-            foundAnything = Site.nextPageCursor
-        end
-        local num = 0;
-        for i,v in pairs(Site.data) do
-            local Possible = true
-            ID = tostring(v.id)
-            if tonumber(v.maxPlayers) > tonumber(v.playing) then
-                for _,Existing in pairs(AllIDs) do
-                    if num ~= 0 then
-                        if ID == tostring(Existing) then
-                            Possible = false
-                        end
-                    else
-                        if tonumber(actualHour) ~= tonumber(Existing) then
-                            local delFile = pcall(function()
-                                AllIDs = {}
-                                table.insert(AllIDs, actualHour)
-                            end)
-                        end
-                    end
-                    num = num + 1
-                end
-                if Possible == true then
-                    table.insert(AllIDs, ID)
-                    wait()
-                    pcall(function()
-                        wait()
-                        game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-                    end)
-                    wait(4)
-                end
-            end
-        end
-    end
-    function Teleport() 
-        while wait() do
-            pcall(function()
-                TPReturner()
-                if foundAnything ~= "" then
-                    TPReturner()
-                end
-            end)
-        end
-    end
-    Teleport()
-end
-
-
-_G.ServerHop = false
-
-while _G.ServerHop do
-    wait(0.05)
-    Hop()
-end
+getgenv().Key = "a0b63542adeb72e03f641676" 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BananaHub.lua"))()
