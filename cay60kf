@@ -53,7 +53,7 @@ getgenv().SettingFarm ={
             ["Enabled"] = true, -- Auto Buy Fruit in Shop Mirage and Normal
             ["Fruit"] = {"Leopard-Leopard","Kitsune-Kitsune","Dragon-Dragon","Yeti-Yeti","Gas-Gas"},
         },
-        ["Lock Fruit"] = {},
+        ["Lock Fruit"] = {"Kitsune-Kitsune","Dragon-Dragon"},
         ["Webhook"] = {
             ["Enabled"] = false,
             ["WebhookUrl"] = "",
