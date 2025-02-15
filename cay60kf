@@ -27,8 +27,8 @@ getgenv().SettingFarm ={
             ["Skull Guitar"] = true,
             ["Mirror Fractal"] = true,
             ["Cursed Dual Katana"] = true,
-            ["Upgrade Race V2-V3"] = false,
-            ["Auto Pull Lever"] = false,
+            ["Upgrade Race V2-V3"] = true,
+            ["Auto Pull Lever"] = true,
         },
         ["Select Hop"] = { -- 70% will have it
             ["Hop Find Rip Indra Get Valkyrie Helm or Get Tushita"] = true, 
@@ -37,7 +37,7 @@ getgenv().SettingFarm ={
             ["Hop Find Cake Queen [CDK]"] = true,
             ["Hop Find Soul Reaper [CDK]"] = true,
             ["Hop Find Darkbeard [SG]"] = true,
-            ["Hop Find Mirage [ Pull Lever ]"] = false,
+            ["Hop Find Mirage [ Pull Lever ]"] = true,
         },
         ["Buy Haki"] = {
             ["Enhancement"] = false,
