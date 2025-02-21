@@ -29,7 +29,7 @@ getgenv().Config = {
 	["Auto Store Fruit"] = false,
 	["Farm Mastery"] = false,
 	["Auto Farm Mastery 600 Melees"] = false,
-	["Multi Trial"] = false,
+	["Multi Trial"] = true,
 	["Auto Turn On Buso"] = true,
 	["Auto Tushita"] = false,
 	["Auto Upgrade Race V2-V3"] = true,
@@ -121,9 +121,9 @@ getgenv().Config = {
 	["Auto Turn On Observation"] = false,
 	["Auto Get Cyborg"] = false,
 	["Auto Shipwright"] = false,
-	["Auto Turn On V3 Near Door"] = false,
+	["Auto Turn On V3 Near Door"] = true,
 	["Reset Teleport Get Boat"] = false,
 	["Hop Server Find Boss"] = false
 }
-getgenv().Key = "a0b63542adeb72e03f641676" 
+getgenv().Key = "7178f47dc8353d9f8ee3ae06" 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BananaHub.lua"))()
