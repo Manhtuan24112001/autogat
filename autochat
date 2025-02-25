@@ -7,6 +7,6 @@ local settings = {
 local chatrem = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
 
 while task.wait(settings.AutoChat_Time) do
-    chatrem:FireServer('ACC NGON LÊN RACEV4 SHOP ', "All")
+    chatrem:FireServer('ACC NGON LEN RACEV4 SHOP ', "All")
     print("Sent Message")
 end
