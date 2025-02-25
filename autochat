@@ -1,6 +1,6 @@
 local settings = {
-   AutoChat_Time = 10,
-   AutoChat_Delay = 10,
+   AutoChat_Time = 60,
+   AutoChat_Delay = 60,
    AutoChat = true,
 }
 
