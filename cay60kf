@@ -31,7 +31,7 @@ getgenv().SettingFarm ={
             ["Auto Pull Lever"] = true,
             ["Lock Fragment"] = {
             ["Enabled"] = true,
-            ["Fragments"] = 50000
+            ["Fragments"] = 50000,
         },
         ["Select Hop"] = { -- 70% will have it
             ["Hop Find Rip Indra Get Valkyrie Helm or Get Tushita"] = true, 
