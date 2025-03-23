@@ -13,7 +13,7 @@ _G.MainSettings = {
         ['CloseUI'] = false, -- ปิด Ui
         ["NotifycationExPRemove"] = true, -- ลบ ExP ที่เด้งตอนฆ่ามอน
         ['AFKCheck'] = 150, -- ถ้ายืนนิ่งเกินวิที่ตั้งมันจะรีเกม
-        ["LockFragments"] = 60000, -- ล็อคเงินม่วง
+        ["LockFragments"] = 0, -- ล็อคเงินม่วง
         ["LockFruitsRaid"] = { -- ล็อคผลที่ไม่เอาไปลงดัน
             [1] = "Dough-Dough",
             [2] = "Dragon-Dragon"
@@ -44,7 +44,7 @@ _G.Races_Settings = { -- ตั้งค่าเผ่า
                 ["Fishman"] = false,
                 ["Skypiea"] = true
             },
-            ["RerollsWhenFragments"] = 10000 -- Random Races When Your Fragments is >= Settings
+            ["RerollsWhenFragments"] = 0 -- Random Races When Your Fragments is >= Settings
         }
     }
 }
