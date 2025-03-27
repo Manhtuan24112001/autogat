@@ -1,5 +1,5 @@
-script_key = "eZtEAIaqyxcSVMziuewgkZjwEbxmCQAv"
-getgenv().SetFpsCap = false 
+script_key = "bNEluWTuEjGYIUbiaWKrsVrHLYgGPeZP"
+getgenv().SetFpsCap = false
 getgenv().FpsCap = 10
 getgenv().OneClickUi = true -- Only Open Necessacry Ui For One Click
 getgenv().FpsBoost1 = false
@@ -13,22 +13,27 @@ getgenv().FpsBoost1 = false
         RedeemCode=true,
         Sea2KeyHop=true,
         FruitEat = { --Priority, Name, 
-            [1] = {""},
-            [2] = {""}
+            [1] = {"Kitsune-Kitsune","Dragon-Dragon"},
+            [2] = {"Magma-Magma"}
         },
-        EatFruitFromStorage = true,
+        EatFruitFromStorage = false,
         SnipeFruit = true,
         SnipeFruitMirage = true,
-        HopIfFoundNearExploiter = true,
+        HopIfFoundNearExploiter = false,
         HopHakiColor =false,
-        HopTushita = true,
+        HopTushita = false,
         HopValkyriehelm = true,
-        HopMirrorFractal = true,
+        HopMirrorFractal=true,
         FarmPole = false, -- Turn off If Want Focus Level
         FarmItems = false, --Turn off If Want Focus Level And CDK, THis Only get After You Get God Human
         DisableSoulGuitar = false,
         DisableCDK = false,
-
+         RollRace={
+            Enable = true,
+            Races = {"Fishman","Skypiea"}
+        },
+               Mastery = false,
+        SwanFruitHop=false
     }
     getgenv().OneClickFarms = {
         ["Shark Anchor"] = false,
