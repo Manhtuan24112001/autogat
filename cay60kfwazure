@@ -14,7 +14,7 @@ getgenv().FpsBoost1 = false
         Sea2KeyHop=true,
         FruitEat = { --Priority, Name, 
             [1] = {"Kitsune-Kitsune","Dragon-Dragon"},
-            [2] = {"Magma-Magma"}
+            [2] = {"Kitsune-Kitsune","Dragon-Dragon"}
         },
         EatFruitFromStorage = false,
         SnipeFruit = true,
