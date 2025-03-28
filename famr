@@ -1,0 +1,7 @@
+local Players = game:GetService("Players")
+local level = Players.LocalPlayer.Data.Level.Value
+if level < 2300 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/cay60kfwazure"))()
+else
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/cay60kf"))()
+end
