@@ -1,6 +1,6 @@
 script_key = "bNEluWTuEjGYIUbiaWKrsVrHLYgGPeZP"
 getgenv().SetFpsCap = false
-getgenv().FpsCap = 15
+getgenv().FpsCap = 10
 getgenv().OneClickUi = true -- Only Open Necessacry Ui For One Click
 getgenv().FpsBoost1 = false
     getgenv().WhiteScreen = false
@@ -13,8 +13,8 @@ getgenv().FpsBoost1 = false
         RedeemCode=true,
         Sea2KeyHop=true,
         FruitEat = { --Priority, Name, 
-            [1] = {"Kitsune-Kitsune","Dragon-Dragon"},
-            [2] = {"Kitsune-Kitsune","Dragon-Dragon"}
+            [1] = {""},
+            [2] = {""}
         },
         EatFruitFromStorage = false,
         SnipeFruit = true,
@@ -28,10 +28,12 @@ getgenv().FpsBoost1 = false
         FarmItems = false, --Turn off If Want Focus Level And CDK, THis Only get After You Get God Human
         DisableSoulGuitar = false,
         DisableCDK = false,
+        DisableRaceEvolve = false,
          RollRace={
             Enable = true,
-            Races = {"Fishman","Skypiea"}
+            Races = {"Fishman","Mink"}
         },
+       MinFragment = 20000, --Farm After Max Level
                Mastery = false,
         SwanFruitHop=false
     }
