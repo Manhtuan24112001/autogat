@@ -1,12 +1,55 @@
-local settings = {
-   AutoChat_Time = 60,
-   AutoChat_Delay = 60,
-   AutoChat = true,
-}
+wait(5)
+-- Chờ đến khi game và các thành phần cần thiết được tải
+repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game.Players
+repeat task.wait() until game.Players.LocalPlayer
+repeat task.wait() until game.Players.LocalPlayer:FindFirstChild("PlayerGui")
+repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("Main (minimal)")
 
-local chatrem = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
-
-while task.wait(settings.AutoChat_Time) do
-    chatrem:FireServer(' RACEV4.SHOP CHAN ĐÊ ', "All")
-    print("Sent Message")
+-- Kiểm tra và thay đổi team nếu có UI ChooseTeam
+if game.Players.LocalPlayer.PlayerGui["Main (minimal)"]:FindFirstChild("ChooseTeam") then
+    repeat task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("SetTeam", "Pirates")
+    until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded()
 end
+
+-- Đặt tác vụ chạy liên tục để kiểm tra cấp độ và vật phẩm
+spawn(function()
+    while wait(20) do
+        pcall(function()
+            local Players = game:GetService("Players")
+            local level = Players.LocalPlayer.Data.Level.Value
+
+            if level < 2300 then
+                -- Nếu cấp độ dưới 2300, thực thi script "cay60kfwazure"
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/cay60kfwazure"))()
+            else
+                -- Kiểm tra số lượng Dark Fragment trong kho đồ
+                local success, inventory = pcall(function()
+                    return game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")
+                end)
+
+                if success and inventory then
+                    local count = 0
+                    for _, v in pairs(inventory) do
+                        if v.Name == "Dark Fragment" then
+                            count = v.Quantity or v.Count or v.Amount or 0
+                            break
+                        end
+                    end
+
+                    print("Số lượng Dark Fragment:", count)
+
+                    -- Chạy script tương ứng dựa trên số lượng Dark Fragment
+                    if count >= 1 then
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/cay60kf2"))()
+                    else
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/Manhtuan24112001/autogat/refs/heads/main/cay60kf"))()
+                    end
+                else
+                    warn("Lỗi: Không thể lấy danh sách vật phẩm từ kho đồ.")
+                end
+            end
+        end)
+    end
+end)
