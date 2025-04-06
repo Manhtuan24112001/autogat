@@ -1,0 +1,18 @@
+if not game:IsLoaded() then repeat game.Loaded:Wait() until game:IsLoaded() end
+
+_G.Setting = {
+    -- Booster
+    ['White Screen'] = true, -- Booster RAM / จอขาวลด RAM
+    ['FPS Booster'] = true, -- Booster CPU / ภาพกาก
+    -- Sanguine Art
+    ['Auto Sanguine Art'] = true, -- Enabled / เปิดใช้งาน
+    ['Owner Beast Hunter'] = 'xitrum353' -- Write Name (ID Have Beast Hunter) / ใส่ชื่อไอดีที่มีเรือ Beast Hunter
+}
+
+_G.Webhook = {
+    ["Enabled"] = true, -- Enabled / เปิดใช้งาน
+    ["Url"] = "https://discord.com/api/webhooks/1352217370277576767/4-kfkWvpdWO-3w96iDkw9FeiLumPYH1r0p42mdTTtaCBqhbV2gPeptU9awywwnL12y4w" -- Link Webhook discord / ลิ้งค์เว็บฮุก
+}
+
+script_key="KVfbjAtWsvhVDAxSjVKrCyCWyiuaXRfz";
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/79d048dadae60fcaff6ad76402278a8d.lua"))()
