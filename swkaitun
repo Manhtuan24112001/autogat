@@ -12,7 +12,7 @@ _G.Quest = {
 -- Race / เผ่า
 _G.Race = { 
     ['Select Race'] = {'Human','Fishman','Skypiea','Mink'},
-    ['Lock Race'] = false,
+    ['Lock Race'] = true,
     ['Evo Race V3'] = true
 }
 -- Melee / หมัด
