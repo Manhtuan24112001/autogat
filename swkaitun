@@ -67,5 +67,5 @@ _G.Setting = {
     ['Auto Close Ui'] = false
 }
 
-script_key="KVfbjAtWsvhVDAxSjVKrCyCWyiuaXRfz";
+script_key="GIWHdiqAQrXOaUOybIuZKTRyxDzaQGbw";
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/1910eb354a341f5cb857a4082d525a3f.lua"))()
