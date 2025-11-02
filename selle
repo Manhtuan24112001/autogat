@@ -1,0 +1,487 @@
+if not game:IsLoaded(5) then 
+    game.Loaded:Wait(5) 
+end
+--==================--
+--   SERVICES & MODULES
+--==================--
+local Services = {
+    VirtualUser = game:GetService('VirtualUser'),
+    Players = game:GetService('Players'),
+    ReplicatedStorage = game:GetService('ReplicatedStorage'),
+    TeleportService = game:GetService('TeleportService'),
+    HttpService = game:GetService('HttpService'),
+    RunService = game:GetService('RunService'),
+}
+
+local LocalPlayer = Services.Players.LocalPlayer
+local Library = Services.ReplicatedStorage:WaitForChild('Library')
+local Client = Library:WaitForChild('Client')
+
+local function safeRequire(module)
+    local success, result = pcall(require, module)
+    if success then
+        return result
+    end
+    warn('Failed to require module:', module.Name, result)
+    return nil
+end
+
+local Modules = {
+    RAPCmds = safeRequire(Client:WaitForChild('RAPCmds')),
+    Network = safeRequire(Client:WaitForChild('Network')),
+    Save = safeRequire(Client:WaitForChild('Save')),
+    ExistCountCmds = safeRequire(Client:WaitForChild('ExistCountCmds')),
+}
+
+if not Modules.Network or not Modules.Save then
+    error('Critical modules failed to load!')
+end
+
+--==================--
+--   CONSTANTS      --
+--==================--
+local Constants = {
+    PLACE_IDS = {
+        MAIN_WORLD = 8737899170,
+        TRADING_PLAZA_1 = 15588442388,
+        TRADING_PLAZA_2 = 15502339080,
+    },
+    MAX_BOOTH_SLOTS = 25,
+    ANTI_AFK_INTERVAL = 60,
+    WEBHOOK_TIMEOUT = 10,
+}
+
+--==================--
+--   STATE          --
+--==================--
+local State = {
+    isRunning = true,
+    currentBooth = nil,
+    usedSlots = 0,
+    listedItems = {}, -- Pet
+    listedItems_Item = {}, -- Item
+    lastHopTime = os.time(),
+}
+
+--==================--
+--   ANTI-AFK       --
+--==================--
+for _, c in pairs(getconnections(LocalPlayer.Idled)) do
+    c:Disable()
+end
+task.spawn(function()
+    while State.isRunning do
+        task.wait(Constants.ANTI_AFK_INTERVAL)
+        pcall(function()
+            Services.VirtualUser:ClickButton2(Vector2.new(500, 500))
+        end)
+    end
+end)
+
+--==================--
+--   HELPER FUNCTIONS --
+--==================--
+local function parsePrice(str)
+    local multipliers =
+        { K = 1e3, M = 1e6, B = 1e9, T = 1e12, Qd = 1e15, Qn = 1e18 }
+    local num, suffix = str:match('([%d%.]+)(%a*)')
+    num = tonumber(num) or 0
+    if multipliers[suffix] then
+        num = num * multipliers[suffix]
+    end
+    return num
+end
+
+for pet, v in pairs(getgenv().Config.PET_SELL) do
+    if type(v.Huge) == 'string' then
+        v.Huge = parsePrice(v.Huge)
+    end
+    if type(v.Titanic) == 'string' then
+        v.Titanic = parsePrice(v.Titanic)
+    end
+end
+
+local function formatNumber(num)
+    if type(num) ~= 'number' then
+        return '0'
+    end
+    local suffixes = { '', 'K', 'M', 'B', 'T', 'Qd', 'Qn' }
+    local tier = math.floor(math.log10(math.abs(num)) / 3)
+    if tier <= 0 then
+        return tostring(math.floor(num))
+    end
+    if tier > #suffixes - 1 then
+        tier = #suffixes - 1
+    end
+    local scaled = num / (1000 ^ tier)
+    return string.format('%.1f%s', scaled, suffixes[tier + 1])
+end
+
+--==================--
+--   LOCATION & TELEPORT --
+--==================--
+local function getCurrentLocation()
+    local placeId = game.PlaceId
+    if
+        placeId == Constants.PLACE_IDS.TRADING_PLAZA_1
+        or placeId == Constants.PLACE_IDS.TRADING_PLAZA_2
+    then
+        return 'TRADING_PLAZA'
+    end
+    return 'OTHER'
+end
+
+local function teleportToTradingPlaza()
+    if getCurrentLocation() == 'TRADING_PLAZA' then
+        return true
+    end
+    local attempts = 0
+    repeat
+        attempts = attempts + 1
+        pcall(function()
+            Modules.Network.Invoke('Travel to Trading Plaza')
+        end)
+        task.wait(5)
+        if getCurrentLocation() ~= 'TRADING_PLAZA' and attempts == 2 then
+            pcall(function()
+                Services.TeleportService:Teleport(
+                    Constants.PLACE_IDS.TRADING_PLAZA_1
+                )
+            end)
+            task.wait(5)
+        end
+    until getCurrentLocation() == 'TRADING_PLAZA' or attempts >= 3
+    return getCurrentLocation() == 'TRADING_PLAZA'
+end
+
+--==================--
+--   BOOTH SYSTEM   --
+--==================--
+local function findOwnedBooth()
+    for _, booth in ipairs(workspace.__THINGS.Booths:GetChildren()) do
+        if
+            booth:IsA('Model')
+            and booth:GetAttribute('Owner') == LocalPlayer.UserId
+        then
+            return booth
+        end
+    end
+    return nil
+end
+
+local function claimNearestBooth()
+    local character = LocalPlayer.Character
+    if not character or not character:FindFirstChild('HumanoidRootPart') then
+        return false
+    end
+    local nearestBooth, nearestDist = nil, math.huge
+    for _, spawn in pairs(workspace.TradingPlaza.BoothSpawns:GetChildren()) do
+        if spawn and spawn.WorldPivot then
+            local dist = (
+                spawn.WorldPivot.Position - character.HumanoidRootPart.Position
+            ).Magnitude
+            if dist < nearestDist and spawn:GetAttribute('ID') then
+                nearestDist = dist
+                nearestBooth = spawn
+            end
+        end
+    end
+    if nearestBooth then
+        character.HumanoidRootPart.CFrame =
+            CFrame.new(nearestBooth.WorldPivot.Position + Vector3.new(-5, 5, 0))
+        task.wait(0.5)
+        local success = pcall(function()
+            Modules.Network.Invoke(
+                'Booths_ClaimBooth',
+                tostring(nearestBooth:GetAttribute('ID'))
+            )
+        end)
+        task.wait(1)
+        return success and findOwnedBooth() ~= nil
+    end
+    return false
+end
+
+--==================--
+--   PRICE SYSTEM   --
+--==================--
+local function calculatePrice(petData)
+    local petName = petData.id
+        :gsub('Huge', '')
+        :gsub('Titanic', '')
+        :gsub('^%s*(.-)%s*$', '%1')
+    local config = getgenv().Config.PET_SELL[petName]
+    if not config then
+        return nil
+    end
+    local basePrice = string.find(petData.id, 'Titanic') and config.Titanic
+        or config.Huge
+
+    local multiplier = 1
+    if petData.pt == 1 then
+        multiplier = PET_MULTIPLIER.Golden
+    end
+    if petData.pt == 2 then
+        multiplier = PET_MULTIPLIER.Rainbow
+    end
+    if petData.sh then
+        multiplier = PET_MULTIPLIER.Shiny
+    end
+
+    return math.floor(basePrice * multiplier)
+end
+
+--==================--
+--   CREATE LISTING --
+--==================--
+local function createListing(uuid, petData)
+    if
+        State.listedItems[uuid]
+        or State.usedSlots >= Constants.MAX_BOOTH_SLOTS
+    then
+        return false
+    end
+    local price = calculatePrice(petData)
+    if not price then
+        return false
+    end
+    local success, result = pcall(function()
+        return Modules.Network.Invoke('Booths_CreateListing', uuid, price, 1)
+    end)
+    if success and result then
+        State.listedItems[uuid] = {
+            isHuge = string.find(petData.id, 'Huge') ~= nil,
+            id = petData.id,
+            price = price,
+            data = petData,
+            time = os.time(),
+        }
+        State.usedSlots = State.usedSlots + 1
+        return true
+    end
+    return false
+end
+
+--==================--
+--   SELL ITEM      --
+--==================--
+local function sellItem()
+    local Inventory = Modules.Save.Get().Inventory
+    if not Inventory then
+        return
+    end
+
+    for category, items in pairs(Inventory) do
+        if category ~= 'Pet' then
+            for uid, itemData in pairs(items) do
+                local cfg = getgenv().Config.ITEM_SELL[itemData.id]
+                if cfg and not State.listedItems_Item[uid] then
+                    if State.usedSlots >= Constants.MAX_BOOTH_SLOTS then
+                        break
+                    end
+                    local amountOwned = itemData._am or 1
+                    local quantityToSell = (cfg.quantity == 'all')
+                            and amountOwned
+                        or math.clamp(cfg.quantity, 1, amountOwned)
+                    if quantityToSell > 0 then
+                        local price = cfg.value * quantityToSell
+                        local ok, err = pcall(function()
+                            Modules.Network.Invoke(
+                                'Booths_CreateListing',
+                                tostring(uid),
+                                price,
+                                quantityToSell
+                            )
+                        end)
+                        if ok then
+                            State.listedItems_Item[uid] = true
+                            State.usedSlots = State.usedSlots + 1
+                            print(
+                                '[SELL ITEM] Listed:',
+                                itemData.id,
+                                'x',
+                                quantityToSell,
+                                'Price:',
+                                price
+                            )
+                        else
+                            warn('Lỗi tạo listing item:', err)
+                        end
+                        task.wait(0.2)
+                    end
+                end
+            end
+        end
+    end
+end
+
+--==================--
+--   FILL BOOTH (PET) --
+--==================--
+local function fillBooth()
+    if
+        not State.currentBooth
+        or State.usedSlots >= Constants.MAX_BOOTH_SLOTS
+    then
+        return
+    end
+    local inventory = Modules.Save.Get().Inventory
+    if not inventory then
+        return
+    end
+
+    local pets = {}
+    for uuid, petData in pairs(inventory.Pet or {}) do
+        if not State.listedItems[uuid] then
+            table.insert(
+                pets,
+                { uuid = uuid, data = petData, price = calculatePrice(petData) }
+            )
+        end
+    end
+    table.sort(pets, function(a, b)
+        return (a.price or 0) > (b.price or 0)
+    end)
+
+    for _, pet in ipairs(pets) do
+        if State.usedSlots >= Constants.MAX_BOOTH_SLOTS then
+            break
+        end
+        createListing(pet.uuid, pet.data)
+        task.wait(0.2)
+    end
+end
+
+--==================--
+--   SALE DETECTION --
+--==================--
+local function sendSaleNotification(itemId, price, isHuge)
+    print(('Sold %s for %s gems'):format(itemId, formatNumber(price)))
+end
+
+local function setupSaleDetection()
+    task.spawn(function()
+        local lastItems = {}
+        while State.isRunning do
+            task.wait(1)
+            if
+                getCurrentLocation() ~= 'TRADING_PLAZA'
+                or not State.currentBooth
+            then
+                continue
+            end
+
+            local currentItems = {}
+            pcall(function()
+                local scroll = State.currentBooth.Pets.BoothTop.PetScroll
+                for _, child in pairs(scroll:GetChildren()) do
+                    if
+                        child:IsA('Frame')
+                        and child.Name ~= 'Template'
+                        and child.Visible
+                    then
+                        local uid = child:GetAttribute('ItemUID')
+                            or child:GetAttribute('UID')
+                            or child.Name
+                        if uid then
+                            currentItems[tostring(uid)] = true
+                        end
+                    end
+                end
+            end)
+
+            for uuid, item in pairs(State.listedItems) do
+                if lastItems[uuid] and not currentItems[uuid] then
+                    sendSaleNotification(item.id, item.price, item.isHuge)
+                    State.listedItems[uuid] = nil
+                    State.usedSlots = math.max(0, State.usedSlots - 1)
+                    if State.currentBooth then
+                        fillBooth()
+                    end
+                end
+            end
+            lastItems = currentItems
+        end
+    end)
+end
+
+--==================--
+--   SERVER HOP     --
+--==================--
+local function serverHop()
+    if os.time() - State.lastHopTime < (Config['Hop server'] * 60) then
+        return
+    end
+    local success, servers = pcall(function()
+        local url = ('https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100'):format(
+            game.PlaceId
+        )
+        return Services.HttpService:JSONDecode(game:HttpGet(url)).data
+    end)
+
+    if success and servers then
+        local valid = {}
+        for _, s in ipairs(servers) do
+            if s.playing < s.maxPlayers and s.id ~= game.JobId then
+                table.insert(valid, s)
+            end
+        end
+        if #valid > 0 then
+            local target = valid[math.random(1, #valid)]
+            local teleSuccess, _ = pcall(function()
+                Services.TeleportService:TeleportToPlaceInstance(
+                    game.PlaceId,
+                    target.id
+                )
+            end)
+            if teleSuccess then
+                State.lastHopTime = os.time()
+            end
+        end
+    end
+end
+
+task.spawn(function()
+    while State.isRunning do
+        task.wait(20)
+        serverHop()
+    end
+end)
+
+--==================--
+--   MAIN LOOP      --
+--==================--
+task.spawn(function()
+    while State.isRunning do
+        task.wait(5)
+
+        if getCurrentLocation() ~= 'TRADING_PLAZA' then
+            teleportToTradingPlaza()
+        elseif not State.currentBooth then
+            State.currentBooth = findOwnedBooth()
+                or (claimNearestBooth() and findOwnedBooth())
+            if State.currentBooth then
+                State.usedSlots = 0
+                State.listedItems = {}
+                State.listedItems_Item = {}
+                sellItem() -- bán Item trước
+                fillBooth() -- bán Pet sau
+            end
+        else
+            if State.usedSlots < Constants.MAX_BOOTH_SLOTS then
+                sellItem() -- luôn ưu tiên Item
+                fillBooth() -- sau đó Pet
+            end
+        end
+    end
+end)
+
+setupSaleDetection()
+
+print('✅ Auto Seller FULL v2.3 Loaded!')
+while task.wait(60) do
+    game:GetService('ReplicatedStorage')
+        :WaitForChild('Network')
+        :WaitForChild('Mailbox: Claim All')
+        :InvokeServer()
+end
