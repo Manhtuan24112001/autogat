@@ -46,7 +46,7 @@ local Constants = {
         TRADING_PLAZA_1 = 15588442388,
         TRADING_PLAZA_2 = 15502339080,
     },
-    MAX_BOOTH_SLOTS = 25,
+    MAX_BOOTH_SLOTS = 9999,
     ANTI_AFK_INTERVAL = 60,
     WEBHOOK_TIMEOUT = 10,
 }
